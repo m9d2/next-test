@@ -1,11 +1,11 @@
 'use client'
-import {GithubFilled, LogoutOutlined,} from '@ant-design/icons';
 import {PageContainer, ProCard, ProLayout} from '@ant-design/pro-components';
 import React from "react";
 import {Dropdown, Spin} from "antd";
 import useMenu from "@/app/hooks/useMenu";
 import Link from "next/link";
 import {usePathname} from "next/navigation";
+import Icon from "@/app/components/Icon";
 
 const bgLayoutImgList = [
     {
@@ -91,7 +91,7 @@ const Layout = ({children}: { children: React.ReactNode }) => {
                                     items: [
                                         {
                                             key: 'logout',
-                                            icon: <LogoutOutlined/>,
+                                            icon: <Icon name="LogoutOutlined" />,
                                             label: '退出登录',
                                         },
                                     ],
@@ -107,7 +107,7 @@ const Layout = ({children}: { children: React.ReactNode }) => {
                     if (props.isMobile) return [];
                     if (typeof window === 'undefined') return [];
                     return [
-                        <GithubFilled key="GithubFilled"
+                        <Icon name="GithubFilled" key="GithubFilled"
                                       onClick={() => (window.open('https://github.com/ant-design/ant-design-pro-layout'))}/>,
                     ];
                 }}

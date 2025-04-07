@@ -1,5 +1,6 @@
+'use client'
 import useFetch from "@/app/hooks/useFetch";
-import Icon from "@/app/components/icon";
+import Icon from "@/app/components/Icon";
 
 const useMenu = () => {
     const {data, error, isLoading} = useFetch<any>(['/menu/tree'], {url: '/menu/tree'})
