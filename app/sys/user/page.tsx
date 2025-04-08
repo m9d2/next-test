@@ -5,7 +5,8 @@ import {TableDropdown} from "@ant-design/pro-table";
 import React from "react";
 import EditableTable from "@/app/components/EditableTable";
 import {EditColumnType} from "@/app/components/EditModal";
-import useFetch from "@/app/hooks/useFetch";
+import useSWRMutation from "swr/mutation";
+import {postFetcher} from "@/app/utils/fetcher";
 
 const columns: ColumnType[] = [
         {
@@ -130,10 +131,21 @@ const editColumns: EditColumnType[] = [
 
 ]
 
+async function updateUser(url: string, { arg }: { arg: string }) {
+    await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(arg)
+    })
+}
+
 
 export default function Page() {
     const [modalVisible, setModalVisible] = React.useState(false);
-    const {data, mutate} = useFetch('/user/save', {method: 'POST', url: '/user/save'})
+    // const {data, mutate} = useFetch('/user/save', {method: 'POST', url: '/user/save'})
+    const {trigger} = useSWRMutation('/user/save', postFetcher)
     const toolbar = {
         actions: [
             <Button
@@ -147,9 +159,9 @@ export default function Page() {
             </Button>,
         ],
     }
+
     const onFinish = async (values: any) => {
-        console.log(values)
-        await mutate(values)
+        await trigger(values)
         setModalVisible(false)
         return true
     }
@@ -167,7 +179,7 @@ export default function Page() {
                 editProps={{
                     open: modalVisible,
                     title: '添加用户',
-                    onFinish: async (values: any) => {
+                    onSubmit: async (values: any) => {
                         return onFinish(values)
                     },
                     onCancel: () => {

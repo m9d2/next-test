@@ -1,29 +1,13 @@
 import useSWR from 'swr';
-import {fetcher} from "@/app/utils/fetcher";
-import {AxiosRequestConfig} from "axios";
+import {getFetcher} from "@/app/utils/fetcher";
 
-const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL || '/api';
-
-type FetchConfig = {
-    url: string;
-    method?: string | 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' | 'HEAD' | 'OPTIONS' | undefined;
-    params?: any;
-}
-
-const useFetch = <T>(key: string | any[], config: FetchConfig, options?: any) => {
-    const axiosConfig: AxiosRequestConfig = {
-        baseURL,
-        ...config,
-        method: config?.method || 'GET',
-        params: config?.method === 'GET' ? config?.params : undefined,
-        data: config?.method !== 'GET' ? config?.params : undefined,
-    }
+const useFetch = <T>(key: string | any[], config: any, options?: any) => {
     options = {
         revalidateOnFocus: false,
         keepPreviousData: true,
         ...options,
     }
-    const {data, error, isLoading, isValidating, mutate} = useSWR<T>(key, () => fetcher(config?.url, axiosConfig), options);
+    const {data, error, isLoading, isValidating, mutate} = useSWR<T>(key, getFetcher, options);
     return {
         data,
         error,

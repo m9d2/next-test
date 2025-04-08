@@ -7,7 +7,7 @@ export type EditProps = {
     formType?: 'modal' | 'drawer'
     open?: boolean;
     width?: number;
-    onFinish?: (values: any) => Promise<boolean>;
+    onSubmit?: (values: any) => Promise<boolean>;
     onCancel?: () => void;
     columns?: EditColumnType[];
 };
@@ -51,12 +51,24 @@ const EditModal = ({
                        formType = 'modal',
                        open = false,
                        width = 800,
-                       onFinish,
+                       onSubmit,
                        onCancel,
                        columns = []
                    }: EditProps) => {
     const [form] = Form.useForm<{ name: string; company: string }>();
+    const [loading, setLoading] = React.useState(false);
 
+    const onFinish = async (values: any) => {
+        if (onSubmit) {
+            setLoading(true)
+            const result = await onSubmit(values);
+            if (result) {
+                form.resetFields();
+            }
+            setLoading(false)
+            return result
+        }
+    }
     const FormContent = () => {
         return columns.map((column) => {
             if (column.group) {
@@ -81,6 +93,7 @@ const EditModal = ({
             title={title}
             width={width}
             open={open}
+            loading={loading}
             form={form}
             autoFocusFirstInput
             drawerProps={{
@@ -100,6 +113,7 @@ const EditModal = ({
                 company: string;
             }>
                 title={title}
+                loading={loading}
                 open={open}
                 width={width}
                 form={form}
