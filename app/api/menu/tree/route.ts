@@ -1,15 +1,51 @@
-export default function handler(req: any, res: any) {
-    if (req.method === 'GET') {
-        const mockPosts = [
-            { id: 1, title: 'Mock Post 1', body: 'This is a mock post' },
-            { id: 2, title: 'Mock Post 2', body: 'This is another mock post' },
-        ];
-        res.status(200).json(mockPosts);
-    } else if (req.method === 'POST') {
-        // 处理POST请求的逻辑
-        res.status(200).json({ message: 'POST request received' });
-    } else {
-        res.setHeader('Allow', ['GET', 'POST']);
-        res.status(405).end(`Method ${req.method} Not Allowed`);
-    }
+import type {NextApiRequest, NextApiResponse} from 'next'
+
+const data = {
+    "code": 200,
+    "msg": "操作成功",
+    "data": [
+        {
+            "children": null,
+            "id": 3,
+            "name": "首页",
+            "url": "/",
+            "type": null,
+            "icon": "HomeOutlined",
+            "sort": 1
+        },
+        {
+            "children": [
+                {
+                    "children": null,
+                    "id": 2,
+                    "name": "用户管理",
+                    "url": "/sys/user",
+                    "type": null,
+                    "icon": null,
+                    "sort": 3
+                },
+                {
+                    "children": null,
+                    "id": 4,
+                    "name": "菜单管理",
+                    "url": "/sys/menu",
+                    "type": null,
+                    "icon": null,
+                    "sort": 4
+                }
+            ],
+            "id": 1,
+            "name": "系统设置",
+            "url": "/sys",
+            "type": null,
+            "icon": "SettingOutlined",
+            "sort": 2
+        }
+    ],
+    "timestamp": 1744075030121,
+    "success": true
+}
+
+export async function GET(request: NextApiRequest, response: NextApiResponse) {
+    return Response.json(data)
 }

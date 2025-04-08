@@ -5,7 +5,7 @@ import React from "react";
 import {AntdRegistry} from "@ant-design/nextjs-registry";
 import {SWRProvider} from "@/app/swr-provider";
 import '@ant-design/v5-patch-for-react-19';
-import Layout from "./components/Layout";
+import Layout from "@/app/components/Layout";
 
 
 const geistSans = Geist({
