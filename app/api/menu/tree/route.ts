@@ -1,5 +1,3 @@
-import type {NextApiRequest, NextApiResponse} from 'next'
-
 const data = {
     "code": 200,
     "msg": "操作成功",
@@ -46,6 +44,6 @@ const data = {
     "success": true
 }
 
-export async function GET(request: NextApiRequest, response: NextApiResponse) {
+export async function GET() {
     return Response.json(data)
 }

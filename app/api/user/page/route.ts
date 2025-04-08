@@ -194,7 +194,7 @@ const data = {
     "success": true
 }
 
-export async function POST(req: Request, resp: Response) {
+export async function POST(req: Request) {
     const json = await req.json()
     console.log(json)
     return Response.json(data)
