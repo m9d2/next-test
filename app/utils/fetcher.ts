@@ -5,26 +5,30 @@ const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL || '/api';
 
 const fetcher = async (url: string,
                               method: string | 'GET' | 'POST' | 'PUT' | 'DELETE',
-                              { arg }: { arg: string }) => {
-    console.log('fetcher', url, arg);
+                              arg?: any,
+                              ) => {
     url = baseURL + url;
     let requestConfig: AxiosRequestConfig = {
         url: url,
+        method: method,
         timeout: 10000,
-        params: {
-            arg: arg,
-        },
     };
 
-    if (1) {
+    if (method === 'POST' || method === 'PUT') {
         requestConfig = {
             ...requestConfig,
+            data: arg,
             headers: {
                 'Content-Type': 'application/json',
             },
         }
     }
-
+    if (method === 'GET') {
+        requestConfig = {
+            ...requestConfig,
+            params: arg,
+        }
+    }
     try {
         const res = await axios(url, requestConfig);
         return res.data;
@@ -33,19 +37,20 @@ const fetcher = async (url: string,
     }
 };
 
-const getFetcher = async (url: string,
-                    { arg }: { arg: string }) => {
-    console.log('getFetcher', url, arg);
-    return fetcher(url, 'GET',  {arg});
+const getFetcher = async ({url, arg}: { url: string, arg?: any }) => {
+    return fetcher(url, 'GET', arg);
 };
 
-const postFetcher = async (url: string,
-                     { arg }: { arg: string }) => {
-    console.log('postFetcher', url, arg);
-    return fetcher(url, 'POST', {arg});
+const postFetcher = async ({url, arg}: { url: string, arg?: any }, triggerArg?: any) => {
+    return fetcher(url, 'POST', triggerArg ? triggerArg['arg'] : arg);
+};
+
+const putFetcher = async ({url}: { url: string }, triggerArg?: any) => {
+    return fetcher(url, 'PUT', triggerArg['arg']);
 };
 
 export {
     getFetcher,
-    postFetcher
+    postFetcher,
+    putFetcher
 }

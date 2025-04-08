@@ -6,6 +6,7 @@ import {getFetcher} from "@/app/utils/fetcher";
 const useMenu = () => {
     console.log('useMenu')
     const {data, error, isLoading} = useSWR('/menu/tree', getFetcher)
+    console.log(data, error, isLoading)
     const menus = (data?.data || []).map((item: any) => ({
         path: item.url,
         name: item.name,

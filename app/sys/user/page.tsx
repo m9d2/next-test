@@ -6,7 +6,7 @@ import React from "react";
 import EditableTable from "@/app/components/EditableTable";
 import {EditColumnType} from "@/app/components/EditModal";
 import useSWRMutation from "swr/mutation";
-import {postFetcher} from "@/app/utils/fetcher";
+import {postFetcher, putFetcher} from "@/app/utils/fetcher";
 
 const columns: ColumnType[] = [
         {
@@ -87,20 +87,24 @@ const columns: ColumnType[] = [
 
 const editColumns: EditColumnType[] = [
     {
+        key: 'group1',
         group: [
             {
+                key: 'name',
                 name: 'name',
                 label: '签约客户名称',
                 placeholder: '请输入名称',
                 type: 'text'
             },
             {
+                key: 'company',
                 name: 'company',
                 label: '我方公司名称',
                 placeholder: '请输入名称',
                 type: 'text'
             },
             {
+                key: 'gender',
                 name: 'gender',
                 label: '性别',
                 type: 'select',
@@ -118,11 +122,13 @@ const editColumns: EditColumnType[] = [
         ]
     },
     {
+        key: 'project',
         name: 'project',
         label: '项目',
         placeholder: '请输入名称',
         type: 'text'
     }, {
+        key: 'mangerName',
         name: 'mangerName',
         label: '负责人',
         placeholder: '请输入名称',
@@ -131,21 +137,9 @@ const editColumns: EditColumnType[] = [
 
 ]
 
-async function updateUser(url: string, { arg }: { arg: string }) {
-    await fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(arg)
-    })
-}
-
-
 export default function Page() {
     const [modalVisible, setModalVisible] = React.useState(false);
-    // const {data, mutate} = useFetch('/user/save', {method: 'POST', url: '/user/save'})
-    const {trigger} = useSWRMutation('/user/save', postFetcher)
+    const {trigger} = useSWRMutation({url: '/user'}, putFetcher)
     const toolbar = {
         actions: [
             <Button

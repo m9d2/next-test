@@ -14,6 +14,7 @@ export type EditProps = {
 
 export type EditColumnType = {
     width?: number | "md" | "sm" | "xl" | "xs" | "lg" | undefined;
+    key?: string;
     name?: string;
     label?: string;
     placeholder?: string;
@@ -27,7 +28,7 @@ const convertToProForm = (column: EditColumnType) => {
         case 'text':
             return (
                 <ProFormText
-                    key={column.name}
+                    key={column.key}
                     name={column.name}
                     width={column.width}
                     label={column.label}
@@ -36,7 +37,7 @@ const convertToProForm = (column: EditColumnType) => {
         case "select":
             return (
                 <ProFormSelect
-                    key={column.name}
+                    key={column.key}
                     name={column.name}
                     width={column.width}
                     label={column.label}
@@ -73,7 +74,7 @@ const EditModal = ({
         return columns.map((column) => {
             if (column.group) {
                 return (
-                    <ProForm.Group key={column.name}>
+                    <ProForm.Group key={column.key}>
                         {column.group.map((item) => {
                             return convertToProForm(item)
                         })}

@@ -1,11 +1,13 @@
 'use client'
 import {PageContainer, ProCard, ProLayout} from '@ant-design/pro-components';
 import React from "react";
+import useSWR from "swr";
 import {Dropdown, Spin} from "antd";
-import useMenu from "@/app/hooks/useMenu";
 import Link from "next/link";
 import {usePathname} from "next/navigation";
 import Icon from "@/app/components/Icon";
+import { getFetcher } from '../utils/fetcher';
+import { url } from 'inspector';
 
 const bgLayoutImgList = [
     {
@@ -38,8 +40,10 @@ const layoutToken = {
 
 
 const Layout = ({children}: { children: React.ReactNode }) => {
-    const {menus, error, isLoading} = useMenu()
+    const {data, error, isLoading} = useSWR({url: '/menu/tree'}, getFetcher)
+    
     const pathname = usePathname()
+   
     if (error || isLoading) {
         return (
             <div
@@ -70,7 +74,18 @@ const Layout = ({children}: { children: React.ReactNode }) => {
                 loading={isLoading}
                 menu={{
                     loading: isLoading,
-                    request: async () => menus,
+                    request: async () => {
+                        return (data?.data || []).map((item: any) => ({
+                            path: item.url,
+                            name: item.name,
+                            icon: <Icon name={item.icon}/>,
+                            routes: item.children?.map((child: any) => ({
+                                path: child.url,
+                                name: child.name,
+                                icon: <Icon name={item.icon}/>,
+                            }))
+                        }));
+                    },
                 }}
                 siderMenuType='sub'
                 location={{
@@ -132,3 +147,4 @@ const Layout = ({children}: { children: React.ReactNode }) => {
 };
 
 export default Layout;
+
