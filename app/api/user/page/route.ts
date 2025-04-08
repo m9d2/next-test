@@ -1,3 +1,5 @@
+import {NextResponse} from "next/server";
+
 const data = {
     "code": 200,
     "msg": "操作成功",
@@ -194,8 +196,6 @@ const data = {
     "success": true
 }
 
-export async function POST(req: Request) {
-    const json = await req.json()
-    console.log(json)
-    return Response.json(data)
+export async function POST() {
+    return NextResponse.json(data)
 }

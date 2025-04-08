@@ -1,3 +1,5 @@
+import { NextResponse } from 'next/server';
+
 const data = {
     "code": 200,
     "msg": "操作成功",
@@ -45,5 +47,5 @@ const data = {
 }
 
 export async function GET() {
-    return Response.json(data)
+    return NextResponse.json(data);
 }
