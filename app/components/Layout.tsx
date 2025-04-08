@@ -40,8 +40,6 @@ const layoutToken = {
 const Layout = ({children}: { children: React.ReactNode }) => {
     const {menus, error, isLoading} = useMenu()
     const pathname = usePathname()
-    console.log('layout')
-
     if (error || isLoading) {
         return (
             <div

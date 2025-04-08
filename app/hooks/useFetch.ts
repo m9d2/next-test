@@ -2,7 +2,7 @@ import useSWR from 'swr';
 import {fetcher} from "@/app/utils/fetcher";
 import {AxiosRequestConfig} from "axios";
 
-const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8888/api';
+const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL || '/api';
 
 type FetchConfig = {
     url: string;

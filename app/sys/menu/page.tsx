@@ -17,7 +17,7 @@ export default function Page() {
         isLoading,
         isValidating,
         mutate
-    } = useSWR(['http://127.0.0.1:8888/api/user/page', params], ([url, params]) => fetcher(url, params), { revalidateOnFocus: false })
+    } = useSWR(['/api/user/page', params], ([url, params]) => fetcher(url, params), { revalidateOnFocus: false })
     if (isLoading || isValidating) return <div>Loading...</div>
     return (
         <>
