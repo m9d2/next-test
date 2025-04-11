@@ -1,10 +1,10 @@
-import {Form} from "antd";
+import {Form as AntForm} from "antd";
 import {BetaSchemaForm, ProFormColumnsType} from "@ant-design/pro-components";
 import React from "react";
 
 export type EditProps = {
     title?: string;
-    layoutType?: 'DrawerForm' | 'ModalForm'
+    layoutType?: 'DrawerForm' | 'ModalForm' | 'StepsForm'
     open?: boolean;
     width?: number;
     onSubmit?: (values: any) => Promise<boolean>;
@@ -18,21 +18,23 @@ type DataItem = {
     state: string;
 };
 
+
 export type EditColumnType = ProFormColumnsType<DataItem>[] & {}
 
-const EditModal = ({
+const Form = ({
                        title = '默认标题',
                        layoutType = 'ModalForm',
                        open = false,
                        width = 800,
                        onSubmit,
                        onCancel,
-                       columns = [],
+                       columns,
                        initialValues
                    }: EditProps) => {
-    const [form] = Form.useForm<any>();
+    const [form] = AntForm.useForm<any>();
     const [loading, setLoading] = React.useState(false);
 
+    console.log(initialValues)
     const onFinish = async (values: any) => {
         if (onSubmit) {
             setLoading(true)
@@ -46,22 +48,27 @@ const EditModal = ({
     }
 
     return <BetaSchemaForm<DataItem>
+        shouldUpdate
         title={title}
-        width={width}
-        open={open}
-        layoutType={layoutType}
-        initialValues={initialValues}
-        loading={loading}
         form={form}
-        columns={columns}
-        autoFocusFirstInput
-        submitTimeout={2000}
+        width={width}
+        initialValues={initialValues}
+        layoutType={layoutType}
+        open={open}
         onFinish={async (values) => {
-            await onFinish(values)
-            return true
+            console.log(values);
+            return onFinish(values)
         }}
-    >
-    </BetaSchemaForm>
+        modalProps={{
+            onCancel: onCancel,
+            className: 'form-modal',
+        }}
+        drawerProps={{
+            onClose: onCancel,
+            className: 'form-modal',
+        }}
+        columns={(layoutType === 'StepsForm' ? [columns] : columns) as any}
+    />
 };
 
-export default EditModal;
+export default Form;

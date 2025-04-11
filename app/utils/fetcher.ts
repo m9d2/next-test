@@ -49,8 +49,13 @@ const putFetcher = async ({url}: { url: string }, triggerArg?: any) => {
     return fetcher(url, 'PUT', triggerArg['arg']);
 };
 
+const deleteFetcher = async ({url}: { url: string }) => {
+    return fetcher(url, 'DELETE');
+};
+
 export {
     getFetcher,
     postFetcher,
-    putFetcher
+    putFetcher,
+    deleteFetcher
 }

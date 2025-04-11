@@ -1,5 +1,5 @@
 import Table, {TableProps} from "@/app/components/Table";
-import EditModal, {EditProps} from "@/app/components/EditModal";
+import Form, {EditProps} from "@/app/components/Form";
 
 type PageProps = {
     tableProps: TableProps;
@@ -7,11 +7,11 @@ type PageProps = {
 }
 
 
-const EditableTable = (props: PageProps) => {
+const TableForm = (props: PageProps) => {
     return <>
         <Table {...props.tableProps}/>
-        <EditModal {...props.editProps}/>
+        <Form {...props.editProps}/>
     </>
 }
 
-export default EditableTable;
+export default TableForm;

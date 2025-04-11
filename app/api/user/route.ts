@@ -1,4 +1,4 @@
-import {NextResponse} from "next/server";
+import {NextRequest, NextResponse} from "next/server";
 
 const data = {
     "code": 200,
@@ -209,7 +209,8 @@ export async function POST() {
     return NextResponse.json(data)
 }
 
-export async function DELETE() {
+export async function DELETE(nextRequest: NextRequest) {
+    const id = nextRequest.nextUrl.searchParams.get('id')
     return NextResponse.json(data)
 }
 

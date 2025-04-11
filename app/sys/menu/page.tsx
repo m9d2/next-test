@@ -1,33 +1,34 @@
 'use client'
+import {userService} from "@/app/service";
+import {Button} from "antd";
 import useSWR from "swr";
-import {useState} from "react";
 
-const fetcher = async (url: string, params?: any) => {
-    return fetch(url, {
-        method: 'POST',
-        body: JSON.stringify(params),
-        headers: {'Content-Type': 'application/json'}
-    }).then((res) => res.json())
-}
+const Page = () => {
+    const {data, isLoading, mutate} = useSWR('/user', () => userService.getUsers({}))
 
-export default function Page() {
-    const [params, setParams] = useState({page: 0, size: 5})
-    const {
-        data,
-        isLoading,
-        isValidating,
-        mutate
-    } = useSWR(['/api/user/page', params], ([url, params]) => fetcher(url, params), { revalidateOnFocus: false })
-    if (isLoading || isValidating) return <div>Loading...</div>
     return (
         <>
-
-            <ul>
-                {data?.data.content.map((item: any) => <li key={item.id}>{item.name}</li>)}
-            </ul>
-            <button onClick={() => mutate()}>刷新</button>
-            <button onClick={() => setParams({...params, page: params.page + 1})}>下一页</button>
-            <button onClick={() => setParams({...params, page: params.page - 1})}>上一页</button>
+            {isLoading ? (
+                <div>loading...</div>
+            ) : (
+                <ul>
+                    {data.content.map((user: any) => (
+                        <div key={user.id}>
+                            <li>{user.name}</li>
+                            <Button onClick={async () => {
+                                await userService.updateUser(user)
+                                void mutate()
+                            }}>更新</Button>
+                            <Button onClick={async () => {
+                                await userService.deleteUser(user.id)
+                                void mutate()
+                            }}>删除</Button>
+                        </div>
+                    ))}
+                </ul>
+            )}
         </>
-    )
-}
+    );
+};
+
+export default Page;

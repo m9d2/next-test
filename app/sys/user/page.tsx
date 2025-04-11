@@ -2,32 +2,72 @@
 import {ColumnType} from "@/app/components/Table";
 import {Button, Tag} from "antd";
 import React, {useState} from "react";
-import EditableTable from "@/app/components/EditableTable";
-import useSWRMutation from "swr/mutation";
-import {putFetcher} from "@/app/utils/fetcher";
+import TableForm from "@/app/components/TableForm";
+import {deleteFetcher} from "@/app/utils/fetcher";
 import {Enum} from "@/app/utils/enum";
+import {EditColumnType} from "@/app/components/Form";
+import {userService} from "@/app/service";
 
-const editColumns = [
+const editColumns: EditColumnType = [
     {
         title: 'ID',
         dataIndex: 'id',
         key: 'id',
+        colProps: {
+            xs: 24,
+            md: 12,
+        },
     },
     {
         key: 'phone',
-        name: 'phone',
+        dataIndex: 'phone',
         title: '手机号',
+        colProps: {
+            xs: 24,
+            md: 12,
+        },
     },
     {
         key: 'status',
-        name: 'status',
+        dataIndex: 'status',
         title: '状态',
-    }
+        valueType: 'text'
+    },
+    {
+        title: '分组',
+        valueType: 'group',
+        columns: [
+            {
+                title: '状态',
+                dataIndex: 'groupState',
+                valueType: 'select',
+                width: 'xs',
+                colProps: {
+                    xs: 12,
+                },
+            },
+            {
+                title: '标题',
+                width: 'md',
+                dataIndex: 'groupTitle',
+                colProps: {
+                    xs: 12,
+                },
+                formItemProps: {
+                    rules: [
+                        {
+                            required: true,
+                            message: '此项为必填项',
+                        },
+                    ],
+                },
+            },
+        ],
+    },
 ]
 
 export default function Page() {
     const [modalVisible, setModalVisible] = React.useState(false);
-    const {trigger} = useSWRMutation({url: '/user'}, putFetcher)
     const [initialValues, setInitialValues] = useState()
 
     const columns: ColumnType[] = [
@@ -36,6 +76,7 @@ export default function Page() {
             dataIndex: 'id',
             key: 'id',
             search: false,
+            hideInForm: true,
         },
         {
             title: '姓名',
@@ -83,7 +124,9 @@ export default function Page() {
                     setInitialValues(record)
                     setModalVisible(true)
                 }}>编辑</a>,
-                <a key="delete">删除</a>,
+                <a key="delete" onClick={async () => {
+                    await deleteFetcher({url: '/user?id=' + record.id})
+                }}>删除</a>,
             ],
         },
     ];
@@ -94,6 +137,7 @@ export default function Page() {
                 key="primary"
                 type="primary"
                 onClick={() => {
+                    setInitialValues(undefined)
                     setModalVisible(true)
                 }}
             >
@@ -103,20 +147,21 @@ export default function Page() {
     }
 
     const onFinish = async (values: any) => {
-        await trigger(values)
+        await userService.updateUser(values)
         setModalVisible(false)
         return true
     }
     return (
         <>
-            <EditableTable
+            <TableForm
                 tableProps={{
-                    url: '/user/page',
+                    url: '/user',
                     headerTitle: '用户列表',
                     columns: columns,
                     rowKey: (record: any) => record.id,
                     toolbar: toolbar,
-                    method: 'POST'
+                    method: 'POST',
+                    fetcher: userService.getUsers
                 }}
                 editProps={{
                     open: modalVisible,
