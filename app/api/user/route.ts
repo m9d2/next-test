@@ -1,5 +1,5 @@
-export const dynamic = 'force-static'; // 确保它被标记为静态
-export const revalidate = 60; // 每60秒重新验证一次内容
+export const dynamic = 'force-static';
+export const revalidate = 60;
 import {NextRequest, NextResponse} from "next/server";
 
 const data = {
