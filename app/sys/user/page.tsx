@@ -16,7 +16,6 @@ import {userService} from "@/app/service";
 
 export default function Page() {
     const [modalVisible, setModalVisible] = React.useState(false);
-    const [initialValues, setInitialValues] = useState()
     const [messageApi, contextHolder] = message.useMessage();
     const [pageSize, setPageSize] = useState(10);
     const ref = useRef<ActionType>(null);
@@ -137,7 +136,20 @@ export default function Page() {
                         });
                     });
                 }}
-                toolbar={toolbar}
+                toolbar={{
+                    actions: [
+                        <Button
+                            key="primary"
+                            type="primary"
+                            onClick={() => {
+                                form.resetFields()
+                                setModalVisible(true)
+                            }}
+                        >
+                            添加
+                        </Button>,
+                    ],
+                }}
                 rowKey={(record) => record.id}
                 pagination={{
                     showSizeChanger: true,
@@ -148,7 +160,6 @@ export default function Page() {
                 }}
             />
             <ModalForm
-                initialValues={initialValues}
                 title="新建表单"
                 open={modalVisible}
                 autoComplete='off'

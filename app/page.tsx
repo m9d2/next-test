@@ -1,4 +1,8 @@
 'use client'
+
+import { useRouter } from "next/navigation"
+
 export default function BlogPage() {
-    return <h1>Page</h1>
+    const router = useRouter()
+    router.push('/dashboard')
 }

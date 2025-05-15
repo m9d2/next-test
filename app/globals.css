@@ -55,3 +55,13 @@ a {
 .scale-animated-wrapper:hover .scale-animated {
   animation: scaleAnimation 0.5s forwards;
 }
+
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}

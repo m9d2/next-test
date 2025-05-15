@@ -10,7 +10,7 @@ const data = {
             "children": null,
             "id": 3,
             "name": "首页",
-            "url": "/",
+            "url": "/dashboard",
             "type": null,
             "icon": "HomeOutlined",
             "sort": 1
