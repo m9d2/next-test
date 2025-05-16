@@ -4,9 +4,9 @@ import axios, {AxiosRequestConfig} from 'axios';
 const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL || '/api';
 
 const fetcher = async (url: string,
-                              method: string | 'GET' | 'POST' | 'PUT' | 'DELETE',
-                              arg?: any,
-                              ) => {
+                       method: string | 'GET' | 'POST' | 'PUT' | 'DELETE',
+                       arg?: any,
+) => {
     url = baseURL + url;
     let requestConfig: AxiosRequestConfig = {
         url: url,

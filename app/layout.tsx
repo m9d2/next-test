@@ -3,8 +3,8 @@ import {Geist, Geist_Mono} from "next/font/google";
 import "./globals.css";
 import React from "react";
 import {SWRProvider} from "@/app/swr-provider";
-import BaseLayout from "@/app/components/BaseLayout";
 import {AntdRegistry} from "@ant-design/nextjs-registry";
+import BaseLayout from "./base-layout";
 
 
 const geistSans = Geist({

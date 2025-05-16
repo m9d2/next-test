@@ -1,6 +1,6 @@
 export const dynamic = 'force-static';
 export const revalidate = 60;
-import { NextResponse } from 'next/server';
+import {NextResponse} from 'next/server';
 
 const data = {
     "code": 200,
@@ -10,7 +10,7 @@ const data = {
             "children": null,
             "id": 3,
             "name": "首页",
-            "url": "/dashboard",
+            "url": "/",
             "type": null,
             "icon": "HomeOutlined",
             "sort": 1

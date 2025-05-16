@@ -19,14 +19,14 @@ export type ColumnType = TableColumnType & {
 };
 
 export default function Table({
-                                     columns,
-                                     action,
-                                     params,
-                                     rowKey,
-                                     ref,
-                                     headerTitle,
-                                     toolbar
-                                 }: TableProps) {
+                                  columns,
+                                  action,
+                                  params,
+                                  rowKey,
+                                  ref,
+                                  headerTitle,
+                                  toolbar
+                              }: TableProps) {
     const [pageSize, setPageSize] = useState(10);
     const [page, setPage] = useState(1);
     const [formParams, setFormParams] = useState({});
@@ -83,7 +83,8 @@ export default function Table({
                     {
                         columns.map((item) => {
                             if (item.search) {
-                                return <Form.Item key={'form-' + item.dataIndex} name={item.dataIndex} label={item.title}>
+                                return <Form.Item key={'form-' + item.dataIndex} name={item.dataIndex}
+                                                  label={item.title}>
                                     {item.renderFormItem()}
                                 </Form.Item>
                             }

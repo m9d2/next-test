@@ -1,8 +1,13 @@
 'use client'
+import dynamic from 'next/dynamic'
+import Skeleton from "@/app/components/dashboard/components/skeleton";
 
-import { useRouter } from "next/navigation"
+
+const Dashboard = dynamic(() => import('@/app/components/dashboard'), {
+    ssr: false,
+    loading: () => <Skeleton/>,
+})
 
 export default function BlogPage() {
-    const router = useRouter()
-    router.push('/dashboard')
+    return <Dashboard/>
 }

@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig } from 'axios';
+import axios, {AxiosRequestConfig} from 'axios';
 
 interface RequestOptions {
     url: string;
@@ -10,7 +10,7 @@ interface RequestOptions {
 const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 
-const axiosFetch = async ({ url, method, data, params }: RequestOptions) => {
+const axiosFetch = async ({url, method, data, params}: RequestOptions) => {
     try {
         const config: AxiosRequestConfig = {
             method,

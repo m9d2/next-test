@@ -1,5 +1,5 @@
-import Chart, { ComponentOption } from './echarts';
+import Chart, {ComponentOption} from './echarts';
 
-export type { ComponentOption };
+export type {ComponentOption};
 
 export default Chart;
